@@ -1,6 +1,6 @@
 <osm_result xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="intermediate.xsd">
 {
-for $name in doc("o2.xml")//node/tag[@k = 'education' or @k = 'amenity' or @k = 'tourism' or @k = 'health' or @k = 'transport' or @k = 'historic' or @k = 'shops' or @k = 'buildings']
+for $name in doc("data.xml")//node/tag[@k = 'education' or @k = 'amenity' or @k = 'tourism' or @k = 'health' or @k = 'transport' or @k = 'historic' or @k = 'shop' or @k = 'building']
   where string-length($name/../tag[@k = 'name']/@v/string()) >= 1
     return
       <node lat="{$name/../@lat}" lon="{$name/../@lon}">&#xA;

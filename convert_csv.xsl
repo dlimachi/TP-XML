@@ -8,7 +8,7 @@
     <xsl:template match="/osm_result">
         <xsl:value-of select="concat('Name,Category Type, Category Subtype,Phone,Website,Email,Geographic Location',$newline)"/>
         <xsl:for-each select="//node">
-            <xsl:value-of select="concat(./name, ',',./category/type , ',',./category/subtype, ',', ./phone, ',',./website,',', ./email, ',' , ./location/city, '-',./location/postcode, '-', ./location/street ,$newline)"/>
+            <xsl:value-of select="concat(translate(./name, ',',''),',',./category/type , ',',./category/subtype, ',', ./phone, ',',./website,',', ./email, ',' , ./location/city, '-',./location/postcode, '-', ./location/street ,$newline)"/>
         </xsl:for-each>
     </xsl:template>
 

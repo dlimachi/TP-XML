@@ -1,14 +1,14 @@
-#recibir parametros
-#chequear parametros
-#llamar al openStreetMap api
-#se genera el data.xml
-#procesar con xquery
-
 #$1 = west, $2 = south, $3 = east, $4 = north
 
 #!/bin/bash
-
- # while [$4 > $2 && $3 > $1] do
- #     $1 $2 $3 $4
- # done <
-curl https://www.openstreetmap.org/api/0.6/map?bbox=$1,$2,$3,$4 > o2.xml
+if [ "$1" == "0" ] || [ "$2" == "0" ] || [ "$3" == "0" ] || [ "$4" == "0" ]; then
+  java net.sf.saxon.Query errorsEmpty.xq > errorEmpty.xml
+  touch output.csv
+elif [ 1 -eq $(echo "($4 - $2) < 0" | bc) ] || [ 1 -eq $(echo "($3 - $1) < 0" | bc) ]; then
+    java net.sf.saxon.Query errors.xq > errorWrongParameter.xml
+    touch output.csv
+else
+  curl https://www.openstreetmap.org/api/0.6/map?bbox=$1,$2,$3,$4 > data.xml
+  java net.sf.saxon.Query query_map.xq > intermediate.xml
+  java net.sf.saxon.Transform -s:intermediate.xml -xsl:convert_csv.xsl -o:output.csv
+fi
